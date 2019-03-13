@@ -1,9 +1,9 @@
 function display(board, size) {
-    for (let i = 0; i < board.length; i++) {
-        let rows = board[i];
-        for (let j = 0; j < rows.length; j++) {
-            coloring(color(0, 0, 0), rows[j] === 1);
-            rect(j * size, i * size, size, size)
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const cell = board[row][col];
+            coloring(color(0, 0, 0),cell === 1);
+            rect(col * size, row * size, size, size)
         }
     }
 }

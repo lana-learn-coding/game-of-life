@@ -1,11 +1,11 @@
 var board;
-var wcell = 20;
+var cellSize = 20;
 var rows, cols;
 
 function setup() {
     createCanvas(640, 480);
-    rows = floor(4810 / wcell);
-    cols = floor(640 / wcell);
+    rows = floor(480 / cellSize);
+    cols = floor(640 / cellSize);
     board = create2DArray(rows, cols);
     const btnStart = createButton("Start");
     btnStart.position(0, 500);
@@ -56,12 +56,12 @@ function checkState(row, col) {
 }
 
 function draw() {
-    display(board, wcell);
+    display(cellSize);
 }
 
 function mousePressed() {
-    const col = (int)(mouseX / 20);
-    const row = (int)(mouseY / 20);
-    seeding(row, col, board);
+    const col = parseInt(mouseX / 20);
+    const row = parseInt(mouseY / 20);
+    seeding(row, col);
 }
 

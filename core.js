@@ -1,17 +1,15 @@
-function display(board, size) {
+function display(cellSize, liveCellColor) {
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             const cell = board[row][col];
-            coloring(color(0, 0, 0),cell === 1);
-            rect(col * size, row * size, size, size)
+            coloring(liveCellColor || color(0, 0, 0), cell === 1);
+            rect(col * cellSize, row * cellSize, cellSize, cellSize)
         }
     }
 }
 
-function seeding(row, col, board) {
+function seeding(row, col) {
     board[row][col] = 1 - board[row][col]; //if = 0 then turn to 1
-    return board;
-
 }
 
 function coloring(color, condition) {

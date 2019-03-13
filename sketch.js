@@ -50,11 +50,8 @@ function getNumberOfSurroundCell(row, col) {
 }
 
 function checkState(row, col) {
-    const defaultEdgeState = 0;
-    const isOutOfRow = row >= rows || row < 0;
-    const isOutOfCol = col >= cols || col < 0;
-    if (isOutOfRow || isOutOfCol)
-        return defaultEdgeState;
+    row = (row + rows) % rows;
+    col = (col + cols) % cols;
     return board[row][col]
 }
 

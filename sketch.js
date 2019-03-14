@@ -57,6 +57,7 @@ function setupStartBtn() {
 function onStart() {
     isStarted = true;
     board = getBoardNextState();
+    setTimeout(onStart,1000)
 }
 
 

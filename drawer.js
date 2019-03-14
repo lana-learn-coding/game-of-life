@@ -34,35 +34,35 @@ function reDrawSpecialCase() {
 function changeMatchedColor(row, col, caseIndex) {
     const specialCase = specialCases[caseIndex];
     const resolvedMap = resolveMap(specialCase.map);
-    const isMatch = matchMap(row, col, resolvedMap);
-    if (isMatch) {
-        for (let i = 0; i < resolvedMap.rows; i++) {
-            for (let j = 0; j < resolvedMap.cols; j++) {
-                const currentRow = (row + rows + i) % rows;
-                const currentCol = (col + cols + j) % cols;
-                const currentState = board[currentRow][currentCol];
-
-                if (currentState === LIVING) {
-                    displayOneBlock(currentRow, currentCol, specialCase.color)
-                }
-            }
+    const matchList = getMatchList(row, col, resolvedMap);
+    if (matchList !== []) {
+        for (const match of matchList) {
+            displayOneBlock(match.row, match.col, specialCase.color)
         }
     }
 }
 
-function matchMap(row, col, resolvedMap) {
+function getMatchList(startRow, startCol, resolvedMap) {
+    let living = [];
     for (let i = 0; i < resolvedMap.rows; i++) {
         let rowString = '';
         let rowRegex = resolvedMap.regex[i];
         for (let j = 0; j < resolvedMap.cols; j++) {
-            rowString += getState(row + i, col + j)
+            const row = (startRow + rows + i) % rows;
+            const col = (startCol + cols + j) % cols;
+            const state = board[row][col];
+            rowString += state;
+
+            if (state === 1) {
+                living.push({row: row, col: col})
+            }
         }
         if (rowString.match(rowRegex)) {
             continue;
         }
-        return false;
+        return [];
     }
-    return true;
+    return living;
 }
 
 

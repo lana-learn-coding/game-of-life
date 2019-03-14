@@ -37,12 +37,12 @@ function setupSpecialCases() {
         {
             name: 'block',
             map: '0000\n0110\n0110\n0000',
-            color: color(100, 20, 60)
+            color: color(100, 20, 30)
         },
         {
             name: 'glider',
             map: '00000\n01000\n00110\n01100\n00000',
-            color: color(20, 10, 50)
+            color: color(40, 80, 20)
         }
     ]
 }

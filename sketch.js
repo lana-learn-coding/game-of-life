@@ -10,6 +10,8 @@ var cellSize = 20;
 var cols = Math.floor(boardWidth / cellSize);
 var rows = Math.floor(boardHeight / cellSize);
 
+var isStarted = false;
+
 function setup() {
     createCanvas(boardWidth, boardHeight);
 
@@ -53,13 +55,14 @@ function setupStartBtn() {
 
 
 function onStart() {
+    isStarted = true;
     board = getBoardNextState();
 }
 
 
 function draw() {
     display();
-    reDrawSpecialCase();
+    if (isStarted) reDrawSpecialCase();
 }
 
 function mousePressed() {

@@ -1,14 +1,3 @@
-function create2DArray(rows, cols) {
-    let f = [];
-    for (let i = 0; i < rows; i++) {
-        f[i] = [];
-        for (let j = 0; j < cols; j++) {
-            f[i][j] = 0;
-        }
-    }
-    return f;
-}
-
 function getNumberOfSurroundCell(row, col) {
     let numberOfSurround = 0;
     const checkList = [-1, 0, 1];

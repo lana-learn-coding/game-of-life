@@ -32,28 +32,27 @@ function reDrawSpecialCase() {
 }
 
 function changeMatchedColor(row, col, caseIndex) {
-    const specialCase = specialCases[caseIndex];
-    const resolvedMap = resolveMap(specialCase.map);
-    const matchList = getMatchList(row, col, resolvedMap);
+    const matchCase = specialCases[caseIndex];
+    const matchList = getMatchList(row, col, matchCase.map);
     if (matchList !== []) {
         for (const match of matchList) {
-            displayOneBlock(match.row, match.col, specialCase.color)
+            displayOneBlock(match.row, match.col, matchCase.color)
         }
     }
 }
 
-function getMatchList(startRow, startCol, resolvedMap) {
+function getMatchList(startRow, startCol, map) {
     let living = [];
-    for (let i = 0; i < resolvedMap.rows; i++) {
+    for (let i = 0; i < map.rows; i++) {
         let rowString = '';
-        let rowRegex = resolvedMap.regex[i];
-        for (let j = 0; j < resolvedMap.cols; j++) {
+        let rowRegex = map.regex[i];
+        for (let j = 0; j < map.cols; j++) {
             const row = (startRow + rows + i) % rows;
             const col = (startCol + cols + j) % cols;
             const state = board[row][col];
             rowString += state;
 
-            if (state === 1) {
+            if (state === LIVING) {
                 living.push({row: row, col: col})
             }
         }
@@ -66,12 +65,4 @@ function getMatchList(startRow, startCol, resolvedMap) {
 }
 
 
-function resolveMap(mapString) {
-    let resolvedMap = {
-        regex: mapString.split('\n'),
-    };
-    resolvedMap.rows = mapString.match(/\n/g).length + 1;
-    resolvedMap.cols = resolvedMap.regex[0].length;
-    resolvedMap.regex = resolvedMap.regex.map(regexString => new RegExp(regexString));
-    return resolvedMap;
-}
+

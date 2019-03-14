@@ -1,32 +1,49 @@
-function display(cellSize, liveCellColor) {
+function getBoardNextState() {
+    let newBoard = [];
     for (let row = 0; row < rows; row++) {
+        newBoard[row] = [];
         for (let col = 0; col < cols; col++) {
-            const cell = board[row][col];
-            coloring(liveCellColor || color(0, 0, 0), cell === 1);
-            rect(col * cellSize, row * cellSize, cellSize, cellSize)
+            const currentCellState = board[row][col];
+            const numberOfSurroundCell = getNumberOfSurroundCell(row, col);
+            newBoard[row][col] = getCellNextState(currentCellState, numberOfSurroundCell);
         }
     }
+    return newBoard;
 }
 
-function seeding(row, col) {
-    board[row][col] = 1 - board[row][col]; //if = 0 then turn to 1
-}
 
-function coloring(color, condition) {
-    if (condition) {
-        fill(color)
-    } else {
-        fill(255, 255, 255)
-    }
-}
-
-function create2DArray(rows, cols) {
-    let f = [];
-    for (let i = 0; i < rows; i++) {
-        f[i] = [];
-        for (let j = 0; j < cols; j++) {
-            f[i][j] = 0;
+function getNumberOfSurroundCell(row, col) {
+    let numberOfSurround = 0;
+    const checkList = [-1, 0, 1];
+    for (let i of checkList) {
+        for (let j of checkList) {
+            numberOfSurround += getState(row + j, col + i);
         }
     }
-    return f;
+    numberOfSurround -= getState(row, col);
+    return numberOfSurround;
 }
+
+function getState(row, col) {
+    row = (row + rows) % rows;
+    col = (col + cols) % cols;
+    return board[row][col]
+}
+
+function getCellNextState(currentState, numberOfSurround) {
+    const isDead = currentState === DEAD;
+
+    const reproduction = numberOfSurround === 3;
+    const overpopulation = numberOfSurround > 3;
+    const underpopulation = numberOfSurround < 2;
+
+    if (isDead && reproduction) {
+        return 1
+    }
+    if (!isDead && (overpopulation || underpopulation)) {
+        return 0
+    }
+    return currentState;
+}
+
+

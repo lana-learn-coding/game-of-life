@@ -1,67 +1,82 @@
-var board;
+var board, specialCases;
+var LIVING = 1;
+var DEAD = 0;
+
+
+var boardWidth = 640;
+var boardHeight = 480;
 var cellSize = 20;
-var rows, cols;
+
+var cols = Math.floor(boardWidth / cellSize);
+var rows = Math.floor(boardHeight / cellSize);
+
+var isStarted = false;
 
 function setup() {
-    createCanvas(640, 480);
-    rows = floor(480 / cellSize);
-    cols = floor(640 / cellSize);
-    board = create2DArray(rows, cols);
-    const btnStart = createButton("Start");
+    createCanvas(boardWidth, boardHeight);
+
+    setupBoard();
+    setupSpecialCases();
+
+    setupStartBtn();
+    smooth();
+}
+
+function setupBoard() {
+    board = [];
+    for (let row = 0; row < rows; row++) {
+        board[row] = [];
+        for (let col = 0; col < cols; col++) {
+            board[row][col] = 0;
+        }
+    }
+}
+
+function setupSpecialCases() {
+    specialCases = [
+        {
+            name: 'block',
+            map: '0000\n0110\n0110\n0000',
+            color: color(100, 20, 60)
+        },
+        {
+            name: 'glider',
+            map: '00000\n01000\n00110\n01100\n00000',
+            color: color(20, 10, 50)
+        }
+    ]
+}
+
+function setupStartBtn() {
+    let btnStart = createButton("Start");
     btnStart.position(0, 500);
     btnStart.mousePressed(onStart);
-    smooth();
-
 }
+
 
 function onStart() {
-    let newBoard = create2DArray(rows, cols);
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            const cell = board[row][col];
-            const numberOfSurroundCell = getNumberOfSurroundCell(row, col);
-            newBoard[row][col] = cell;
-            if (cell === 0) {
-                if (numberOfSurroundCell === 3) {
-                    newBoard[row][col] = 1
-                }
-                continue;
-            }
-            if (numberOfSurroundCell > 3 || numberOfSurroundCell < 2) {
-                newBoard[row][col] = 0
-            }
-        }
-    }
-    board = newBoard;
-    draw();
-    setTimeout(onStart, 1000)
+    isStarted = true;
+    board = getBoardNextState();
+    setTimeout(onStart,1000)
 }
 
-function getNumberOfSurroundCell(row, col) {
-    let numberOfSurround = 0;
-    const checkList = [-1, 0, 1];
-    for (let i of checkList) {
-        for (let j of checkList) {
-            numberOfSurround += checkState(row + j, col + i);
-        }
-    }
-    numberOfSurround -= checkState(row, col);
-    return numberOfSurround;
-}
-
-function checkState(row, col) {
-    row = (row + rows) % rows;
-    col = (col + cols) % cols;
-    return board[row][col]
-}
 
 function draw() {
-    display(cellSize);
+    display();
+    if (isStarted) reDrawSpecialCase();
 }
 
 function mousePressed() {
     const col = parseInt(mouseX / 20);
     const row = parseInt(mouseY / 20);
     seeding(row, col);
+}
+
+function seeding(row, col) {
+    if (board[row][col] === DEAD) {
+        board[row][col] = LIVING
+    } else {
+        board[row][col] = DEAD
+    }
 }
 

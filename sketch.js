@@ -1,17 +1,17 @@
 var board;
 var cellSize = 20;
-var rows, cols;
+var rows = Math.floor(480 / cellSize);
+var cols = Math.floor(640 / cellSize);
 
 function setup() {
     createCanvas(640, 480);
-    rows = floor(480 / cellSize);
-    cols = floor(640 / cellSize);
     board = create2DArray(rows, cols);
+
     const btnStart = createButton("Start");
     btnStart.position(0, 500);
     btnStart.mousePressed(onStart);
-    smooth();
 
+    smooth();
 }
 
 function onStart() {
@@ -33,27 +33,9 @@ function onStart() {
         }
     }
     board = newBoard;
-    draw();
     setTimeout(onStart, 1000)
 }
 
-function getNumberOfSurroundCell(row, col) {
-    let numberOfSurround = 0;
-    const checkList = [-1, 0, 1];
-    for (let i of checkList) {
-        for (let j of checkList) {
-            numberOfSurround += checkState(row + j, col + i);
-        }
-    }
-    numberOfSurround -= checkState(row, col);
-    return numberOfSurround;
-}
-
-function checkState(row, col) {
-    row = (row + rows) % rows;
-    col = (col + cols) % cols;
-    return board[row][col]
-}
 
 function draw() {
     display(cellSize);
@@ -63,5 +45,9 @@ function mousePressed() {
     const col = parseInt(mouseX / 20);
     const row = parseInt(mouseY / 20);
     seeding(row, col);
+}
+
+function seeding(row, col) {
+    board[row][col] = 1 - board[row][col]; //if = 0 then turn to 1
 }
 

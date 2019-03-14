@@ -1,25 +1,3 @@
-function display(cellSize, liveCellColor) {
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            const cell = board[row][col];
-            coloring(liveCellColor || color(0, 0, 0), cell === 1);
-            rect(col * cellSize, row * cellSize, cellSize, cellSize)
-        }
-    }
-}
-
-function seeding(row, col) {
-    board[row][col] = 1 - board[row][col]; //if = 0 then turn to 1
-}
-
-function coloring(color, condition) {
-    if (condition) {
-        fill(color)
-    } else {
-        fill(255, 255, 255)
-    }
-}
-
 function create2DArray(rows, cols) {
     let f = [];
     for (let i = 0; i < rows; i++) {
@@ -30,3 +8,23 @@ function create2DArray(rows, cols) {
     }
     return f;
 }
+
+function getNumberOfSurroundCell(row, col) {
+    let numberOfSurround = 0;
+    const checkList = [-1, 0, 1];
+    for (let i of checkList) {
+        for (let j of checkList) {
+            numberOfSurround += checkState(row + j, col + i);
+        }
+    }
+    numberOfSurround -= checkState(row, col);
+    return numberOfSurround;
+}
+
+function checkState(row, col) {
+    row = (row + rows) % rows;
+    col = (col + cols) % cols;
+    return board[row][col]
+}
+
+

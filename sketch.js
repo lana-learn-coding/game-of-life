@@ -46,27 +46,7 @@ function setupStartBtn() {
 
 
 function onStart() {
-    let newBoard = [];
-    for (let row = 0; row < rows; row++) {
-        newBoard[row] = [];
-        for (let col = 0; col < cols; col++) {
-            const cell = board[row][col];
-            const numberOfSurroundCell = getNumberOfSurroundCell(row, col);
-            newBoard[row][col] = cell;
-
-            if (cell === 0) {
-                if (numberOfSurroundCell === 3) {
-                    newBoard[row][col] = 1
-                }
-                continue;
-            }
-            if (numberOfSurroundCell > 3 || numberOfSurroundCell < 2) {
-                newBoard[row][col] = 0
-            }
-        }
-    }
-    board = newBoard;
-
+    board = getBoardNextState();
     setTimeout(onStart, 1000)
 }
 

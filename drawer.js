@@ -52,6 +52,7 @@ function getMatchList(startRow, startCol, resolvedMap) {
             const col = (startCol + cols + j) % cols;
             const state = board[row][col];
             rowString += state;
+
             if (state === 1) {
                 living.push({row: row, col: col})
             }

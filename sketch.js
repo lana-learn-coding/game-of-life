@@ -1,4 +1,7 @@
-var board, specialCase;
+var board, specialCases;
+var LIVING = 1;
+var DEAD = 0;
+
 
 var boardWidth = 640;
 var boardHeight = 480;
@@ -12,7 +15,7 @@ function setup() {
     createCanvas(boardWidth, boardHeight);
 
     setupBoard();
-    setupSpecialCase();
+    setupSpecialCases();
 
     setupStartBtn();
     smooth();
@@ -28,8 +31,8 @@ function setupBoard() {
     }
 }
 
-function setupSpecialCase() {
-    specialCase = [
+function setupSpecialCases() {
+    specialCases = [
         {
             name: 'block',
             map: '0000\n0110\n0110\n0000',
@@ -62,6 +65,10 @@ function mousePressed() {
 }
 
 function seeding(row, col) {
-    board[row][col] = 1 - board[row][col]; //if = 0 then turn to 1
+    if (board[row][col] === DEAD) {
+        board[row][col] = LIVING
+    } else {
+        board[row][col] = DEAD
+    }
 }
 

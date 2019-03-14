@@ -31,7 +31,7 @@ function getState(row, col) {
 }
 
 function getCellNextState(currentState, numberOfSurround) {
-    const isDead = currentState === 0;
+    const isDead = currentState === DEAD;
 
     const reproduction = numberOfSurround === 3;
     const overpopulation = numberOfSurround > 3;

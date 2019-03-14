@@ -74,8 +74,3 @@ function resolveMap(mapString) {
     resolvedMap.regex = resolvedMap.regex.map(regexString => new RegExp(regexString));
     return resolvedMap;
 }
-
-function colorCell(row, col) {
-    coloring(color(100, 230, 40), true);
-    rect(col * cellSize, row * cellSize, cellSize, cellSize)
-}

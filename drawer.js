@@ -1,4 +1,4 @@
-function display(cellSize, liveCellColor) {
+function display(liveCellColor) {
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             const cell = board[row][col];
@@ -6,6 +6,11 @@ function display(cellSize, liveCellColor) {
             rect(col * cellSize, row * cellSize, cellSize, cellSize)
         }
     }
+}
+
+function displayOneBlock(row, col, blockColor) {
+    coloring(blockColor || color(0, 0, 0), true);
+    rect(col * cellSize, row * cellSize, cellSize, cellSize)
 }
 
 function coloring(color, condition) {
@@ -17,8 +22,13 @@ function coloring(color, condition) {
 }
 
 function reDrawSpecialCase() {
-
-
+    for (let i = 0; i < specialCases.length; i++) {
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                changeMatchedColor(row, col, i)
+            }
+        }
+    }
 }
 
 function matchMap(row, col, resolvedMap) {
@@ -36,10 +46,23 @@ function matchMap(row, col, resolvedMap) {
     return true;
 }
 
-function changeMatchedState(row, col, caseIndex) {
+function changeMatchedColor(row, col, caseIndex) {
     const specialCase = specialCases[caseIndex];
     const resolvedMap = resolveMap(specialCase.map);
-    const isMatch = matchMap(row, col,)
+    const isMatch = matchMap(row, col, resolvedMap);
+    if (isMatch) {
+        for (let i = 0; i < resolvedMap.rows; i++) {
+            for (let j = 0; j < resolvedMap.cols; j++) {
+                const currentRow = (row + rows + i) % rows;
+                const currentCol = (col + cols + j) % cols;
+                const currentState = board[currentRow][currentCol];
+
+                if (currentState === LIVING) {
+                    displayOneBlock(currentRow, currentCol, specialCase.color)
+                }
+            }
+        }
+    }
 }
 
 function resolveMap(mapString) {
@@ -52,3 +75,7 @@ function resolveMap(mapString) {
     return resolvedMap;
 }
 
+function colorCell(row, col) {
+    coloring(color(100, 230, 40), true);
+    rect(col * cellSize, row * cellSize, cellSize, cellSize)
+}

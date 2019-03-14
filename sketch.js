@@ -10,7 +10,6 @@ var cellSize = 20;
 var cols = Math.floor(boardWidth / cellSize);
 var rows = Math.floor(boardHeight / cellSize);
 
-
 function setup() {
     createCanvas(boardWidth, boardHeight);
 
@@ -37,6 +36,11 @@ function setupSpecialCases() {
             name: 'block',
             map: '0000\n0110\n0110\n0000',
             color: color(100, 20, 60)
+        },
+        {
+            name: 'glider',
+            map: '00000\n0110\n0110\n0000',
+            color: color(100, 20, 60)
         }
     ]
 }
@@ -50,12 +54,12 @@ function setupStartBtn() {
 
 function onStart() {
     board = getBoardNextState();
-    setTimeout(onStart, 1000)
 }
 
 
 function draw() {
-    display(cellSize);
+    display();
+    reDrawSpecialCase();
 }
 
 function mousePressed() {

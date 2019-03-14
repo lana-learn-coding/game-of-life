@@ -14,14 +14,14 @@ function getNumberOfSurroundCell(row, col) {
     const checkList = [-1, 0, 1];
     for (let i of checkList) {
         for (let j of checkList) {
-            numberOfSurround += checkState(row + j, col + i);
+            numberOfSurround += getState(row + j, col + i);
         }
     }
-    numberOfSurround -= checkState(row, col);
+    numberOfSurround -= getState(row, col);
     return numberOfSurround;
 }
 
-function checkState(row, col) {
+function getState(row, col) {
     row = (row + rows) % rows;
     col = (col + cols) % cols;
     return board[row][col]

@@ -1,17 +1,30 @@
-var board;
+var board = [[]];
 var cellSize = 20;
 var rows = Math.floor(480 / cellSize);
 var cols = Math.floor(640 / cellSize);
 
+var specialCase = [];
+
 function setup() {
     createCanvas(640, 480);
     board = create2DArray(rows, cols);
+    setUpSpecialCase();
 
     const btnStart = createButton("Start");
     btnStart.position(0, 500);
     btnStart.mousePressed(onStart);
 
     smooth();
+}
+
+function setUpSpecialCase() {
+    specialCase = [
+        {
+            name: 'block',
+            map: '0000\n0110\n0110\n0000',
+            color: color(100, 20, 60)
+        }
+    ]
 }
 
 function onStart() {

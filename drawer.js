@@ -31,21 +31,6 @@ function reDrawSpecialCase() {
     }
 }
 
-function matchMap(row, col, resolvedMap) {
-    for (let i = 0; i < resolvedMap.rows; i++) {
-        let rowString = '';
-        let rowRegex = resolvedMap.regex[i];
-        for (let j = 0; j < resolvedMap.cols; j++) {
-            rowString += getState(row + i, col + j)
-        }
-        if (rowString.match(rowRegex)) {
-            continue;
-        }
-        return false;
-    }
-    return true;
-}
-
 function changeMatchedColor(row, col, caseIndex) {
     const specialCase = specialCases[caseIndex];
     const resolvedMap = resolveMap(specialCase.map);
@@ -64,6 +49,22 @@ function changeMatchedColor(row, col, caseIndex) {
         }
     }
 }
+
+function matchMap(row, col, resolvedMap) {
+    for (let i = 0; i < resolvedMap.rows; i++) {
+        let rowString = '';
+        let rowRegex = resolvedMap.regex[i];
+        for (let j = 0; j < resolvedMap.cols; j++) {
+            rowString += getState(row + i, col + j)
+        }
+        if (rowString.match(rowRegex)) {
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
 
 function resolveMap(mapString) {
     let resolvedMap = {

@@ -64,5 +64,12 @@ function getMatchList(startRow, startCol, map) {
     return living;
 }
 
-
-
+function compileMap(mapString) {
+    let map = {
+        regex: mapString.split('\n'),
+    };
+    map.rows = mapString.match(/\n/g).length + 1;
+    map.cols = map.regex[0].length;
+    map.regex = map.regex.map(regexString => new RegExp(regexString));
+    return map;
+}

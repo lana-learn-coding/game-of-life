@@ -58,7 +58,7 @@ function changeSpecialState() {
     for (let i = 0; i < specialCases.length; i++) {
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-                changeMatchedState(row, col, i)
+                changeMatchedState(row, col, i);
             }
         }
     }

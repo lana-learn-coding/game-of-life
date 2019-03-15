@@ -9,7 +9,7 @@ var cellSize = 20;
 var cols = Math.floor(boardWidth / cellSize);
 var rows = Math.floor(boardHeight / cellSize);
 
-var speed = 1;
+var speed = 2;
 
 function setup() {
     createCanvas(boardWidth, boardHeight);

@@ -10,7 +10,6 @@ var cols = Math.floor(boardWidth / cellSize);
 var rows = Math.floor(boardHeight / cellSize);
 
 var speed = 1;
-var isStarted = false;
 
 
 function setup() {
@@ -20,6 +19,7 @@ function setup() {
     setupStartBtn();
     setupSpecialCases();
 
+    noLoop();
     smooth();
 }
 
@@ -68,6 +68,7 @@ function mousePressed() {
     const col = parseInt(mouseX / 20);
     const row = parseInt(mouseY / 20);
     seeding(row, col);
+    draw();
 }
 
 function seeding(row, col) {
@@ -79,12 +80,12 @@ function seeding(row, col) {
 }
 
 function onStart() {
-    isStarted = true;
     board = getBoardNextState();
+    draw();
     setTimeout(onStart, 1000 / speed)
 }
 
 function draw() {
     display();
-    if (isStarted) reDrawSpecialCase();
+    reDrawSpecialCase();
 }

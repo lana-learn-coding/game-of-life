@@ -11,6 +11,14 @@ var rows = Math.floor(boardHeight / cellSize);
 
 var speed = 1;
 
+function onStart() {
+    board = getBoardNextState();
+    changeSpecialState();
+}
+
+function draw() {
+    display();
+}
 
 function setup() {
     createCanvas(boardWidth, boardHeight);
@@ -75,13 +83,4 @@ function seeding(row, col) {
     } else {
         board[row][col] = DEAD
     }
-}
-
-function onStart() {
-    board = getBoardNextState();
-    changeSpecialState();
-}
-
-function draw() {
-    display();
 }

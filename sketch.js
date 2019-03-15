@@ -10,8 +10,6 @@ var cols = Math.floor(boardWidth / cellSize);
 var rows = Math.floor(boardHeight / cellSize);
 
 var speed = 1;
-var isStarted = false;
-
 
 function setup() {
     createCanvas(boardWidth, boardHeight);
@@ -20,6 +18,7 @@ function setup() {
     setupStartBtn();
     setupSpecialCases();
 
+    noLoop();
     smooth();
 }
 
@@ -54,20 +53,11 @@ function setupSpecialCases() {
     ]
 }
 
-function compileMap(mapString) {
-    let map = {
-        regex: mapString.split('\n'),
-    };
-    map.rows = mapString.match(/\n/g).length + 1;
-    map.cols = map.regex[0].length;
-    map.regex = map.regex.map(regexString => new RegExp(regexString));
-    return map;
-}
-
 function mousePressed() {
     const col = parseInt(mouseX / 20);
     const row = parseInt(mouseY / 20);
     seeding(row, col);
+    draw();
 }
 
 function seeding(row, col) {
@@ -79,12 +69,12 @@ function seeding(row, col) {
 }
 
 function onStart() {
-    isStarted = true;
     board = getBoardNextState();
-    setTimeout(onStart, 1000 / speed)
+    changeSpecialState();
+    draw();
+    setTimeout(onStart, 1000 / speed);
 }
 
 function draw() {
     display();
-    if (isStarted) reDrawSpecialCase();
 }

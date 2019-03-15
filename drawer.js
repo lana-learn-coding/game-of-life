@@ -2,15 +2,18 @@ function display(liveCellColor) {
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             const cell = board[row][col];
-            coloring(liveCellColor || color(0, 0, 0), cell === LIVING);
+            const isLiving = cell > DEAD;
+            const isSpecial = cell > LIVING;
+            if (isSpecial) {
+                const caseIndex = cell - 2;
+                const specialColor = specialCases[caseIndex].color;
+                coloring(specialColor, isLiving)
+            } else {
+                coloring(liveCellColor || color(0, 0, 0), isLiving);
+            }
             rect(col * cellSize, row * cellSize, cellSize, cellSize)
         }
     }
-}
-
-function displayOneBlock(row, col, blockColor) {
-    coloring(blockColor || color(0, 0, 0), true);
-    rect(col * cellSize, row * cellSize, cellSize, cellSize)
 }
 
 function coloring(color, condition) {
@@ -20,49 +23,5 @@ function coloring(color, condition) {
         fill(255, 255, 255)
     }
 }
-
-function reDrawSpecialCase() {
-    for (let i = 0; i < specialCases.length; i++) {
-        for (let row = 0; row < rows; row++) {
-            for (let col = 0; col < cols; col++) {
-                changeMatchedColor(row, col, i)
-            }
-        }
-    }
-}
-
-function changeMatchedColor(row, col, caseIndex) {
-    const matchCase = specialCases[caseIndex];
-    const matchList = getMatchList(row, col, matchCase.map);
-    if (matchList !== []) {
-        for (const match of matchList) {
-            displayOneBlock(match.row, match.col, matchCase.color)
-        }
-    }
-}
-
-function getMatchList(startRow, startCol, map) {
-    let living = [];
-    for (let i = 0; i < map.rows; i++) {
-        let rowString = '';
-        let rowRegex = map.regex[i];
-        for (let j = 0; j < map.cols; j++) {
-            const row = (startRow + rows + i) % rows;
-            const col = (startCol + cols + j) % cols;
-            const state = board[row][col];
-            rowString += state;
-
-            if (state === LIVING) {
-                living.push({row: row, col: col})
-            }
-        }
-        if (rowString.match(rowRegex)) {
-            continue;
-        }
-        return [];
-    }
-    return living;
-}
-
 
 

@@ -17,10 +17,14 @@ function getNumberOfSurroundCell(row, col) {
     const checkList = [-1, 0, 1];
     for (let i of checkList) {
         for (let j of checkList) {
-            numberOfSurround += getState(row + j, col + i);
+            const cell = getState(row + j, col + i);
+            if (cell > DEAD)
+                numberOfSurround += 1;
         }
     }
-    numberOfSurround -= getState(row, col);
+    if (getState(row, col) > DEAD) {
+        numberOfSurround -= 1;
+    }
     return numberOfSurround;
 }
 
@@ -38,12 +42,67 @@ function getCellNextState(currentState, numberOfSurround) {
     const underpopulation = numberOfSurround < 2;
 
     if (isDead && reproduction) {
-        return 1
+        return LIVING;
     }
     if (!isDead && (overpopulation || underpopulation)) {
-        return 0
+        return DEAD;
     }
-    return currentState;
+    if (currentState > DEAD) {
+        return LIVING;
+    }
+    return DEAD;
 }
 
 
+function changeSpecialState() {
+    for (let i = 0; i < specialCases.length; i++) {
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                changeMatchedState(row, col, i);
+            }
+        }
+    }
+}
+
+function changeMatchedState(row, col, caseIndex) {
+    const matchCase = specialCases[caseIndex];
+    const matchList = getMatchList(row, col, matchCase.map);
+    if (matchList !== []) {
+        for (const match of matchList) {
+            board[match.row][match.col] = caseIndex + 2;
+        }
+    }
+}
+
+function getMatchList(startRow, startCol, map) {
+    let living = [];
+    for (let i = 0; i < map.rows; i++) {
+        let rowString = '';
+        let rowRegex = map.regex[i];
+        for (let j = 0; j < map.cols; j++) {
+            const row = (startRow + rows + i) % rows;
+            const col = (startCol + cols + j) % cols;
+            const state = board[row][col];
+            rowString += state;
+
+            if (state === LIVING) {
+                living.push({row: row, col: col})
+            }
+        }
+        if (rowString.match(rowRegex)) {
+            continue;
+        }
+        return [];
+    }
+    return living;
+}
+
+function compileMap(mapString) {
+    let map = {
+        regex: mapString.split('\n'),
+    };
+    map.rows = mapString.match(/\n/g).length + 1;
+    map.cols = map.regex[0].length;
+    map.regex = map.regex.map(regexString => new RegExp(regexString));
+    return map;
+}

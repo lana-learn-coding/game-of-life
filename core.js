@@ -38,10 +38,10 @@ function getCellNextState(currentState, numberOfSurround) {
     const underpopulation = numberOfSurround < 2;
 
     if (isDead && reproduction) {
-        return 1
+        return LIVING
     }
     if (!isDead && (overpopulation || underpopulation)) {
-        return 0
+        return DEAD
     }
     return currentState;
 }

@@ -45,7 +45,7 @@ function getMatchList(startRow, startCol, map) {
     let living = [];
     for (let i = 0; i < map.rows; i++) {
         let rowString = '';
-        let rowRegex = map.regex[i];
+        let rowMap = map.map[i];
         for (let j = 0; j < map.cols; j++) {
             const row = (startRow + rows + i) % rows;
             const col = (startCol + cols + j) % cols;
@@ -56,7 +56,7 @@ function getMatchList(startRow, startCol, map) {
                 living.push({row: row, col: col})
             }
         }
-        if (rowString.match(rowRegex)) {
+        if (rowString === rowMap ) {
             continue;
         }
         return [];
@@ -65,11 +65,9 @@ function getMatchList(startRow, startCol, map) {
 }
 
 function compileMap(mapString) {
-    let map = {
-        regex: mapString.split('\n'),
-    };
+    let map = {};
+    map.map = mapString.split('\n');
     map.rows = mapString.match(/\n/g).length + 1;
-    map.cols = map.regex[0].length;
-    map.regex = map.regex.map(regexString => new RegExp(regexString));
+    map.cols = map.map[0].length;
     return map;
 }

@@ -11,15 +11,6 @@ var rows = Math.floor(boardHeight / cellSize);
 
 var speed = 1;
 
-function onStart() {
-    board = getBoardNextState();
-    changeSpecialState();
-}
-
-function draw() {
-    display();
-}
-
 function setup() {
     createCanvas(boardWidth, boardHeight);
 
@@ -27,6 +18,7 @@ function setup() {
     setupStartBtn();
     setupSpecialCases();
 
+    noLoop();
     smooth();
 }
 
@@ -75,6 +67,7 @@ function mousePressed() {
     const col = parseInt(mouseX / 20);
     const row = parseInt(mouseY / 20);
     seeding(row, col);
+    draw();
 }
 
 function seeding(row, col) {
@@ -83,4 +76,15 @@ function seeding(row, col) {
     } else {
         board[row][col] = DEAD
     }
+}
+
+function onStart() {
+    board = getBoardNextState();
+    changeSpecialState();
+    draw();
+    setTimeout(onStart, 1000 / speed);
+}
+
+function draw() {
+    display();
 }

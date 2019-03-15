@@ -11,6 +11,7 @@ var rows = Math.floor(boardHeight / cellSize);
 
 var speed = 1;
 
+
 function setup() {
     createCanvas(boardWidth, boardHeight);
 
@@ -70,11 +71,11 @@ function seeding(row, col) {
 
 function onStart() {
     board = getBoardNextState();
-    changeSpecialState();
     draw();
-    setTimeout(onStart, 1000 / speed);
+    setTimeout(onStart, 1000 / speed)
 }
 
 function draw() {
     display();
+    reDrawSpecialCase();
 }

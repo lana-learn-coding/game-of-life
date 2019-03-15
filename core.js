@@ -11,7 +11,6 @@ function getBoardNextState() {
     return newBoard;
 }
 
-
 function getNumberOfSurroundCell(row, col) {
     let numberOfSurround = 0;
     const checkList = [-1, 0, 1];

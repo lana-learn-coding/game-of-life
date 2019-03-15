@@ -2,15 +2,17 @@ function display(liveCellColor) {
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             const cell = board[row][col];
-            coloring(liveCellColor || color(0, 0, 0), cell > DEAD);
+            const isLiving = cell > DEAD;
+            const isSpecial = cell > LIVING;
+            if (isSpecial) {
+                const specialColor = specialCases[cell - 2].color;
+                coloring(specialColor, isLiving)
+            } else {
+                coloring(liveCellColor || color(0, 0, 0), isLiving);
+            }
             rect(col * cellSize, row * cellSize, cellSize, cellSize)
         }
     }
-}
-
-function displayOneBlock(row, col, blockColor) {
-    coloring(blockColor || color(0, 0, 0), true);
-    rect(col * cellSize, row * cellSize, cellSize, cellSize)
 }
 
 function coloring(color, condition) {

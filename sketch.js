@@ -53,16 +53,6 @@ function setupSpecialCases() {
     ]
 }
 
-function compileMap(mapString) {
-    let map = {
-        regex: mapString.split('\n'),
-    };
-    map.rows = mapString.match(/\n/g).length + 1;
-    map.cols = map.regex[0].length;
-    map.regex = map.regex.map(regexString => new RegExp(regexString));
-    return map;
-}
-
 function mousePressed() {
     const col = parseInt(mouseX / 20);
     const row = parseInt(mouseY / 20);

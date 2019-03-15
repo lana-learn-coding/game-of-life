@@ -5,7 +5,8 @@ function display(liveCellColor) {
             const isLiving = cell > DEAD;
             const isSpecial = cell > LIVING;
             if (isSpecial) {
-                const specialColor = specialCases[cell - 2].color;
+                const caseIndex = cell - 2;
+                const specialColor = specialCases[caseIndex].color;
                 coloring(specialColor, isLiving)
             } else {
                 coloring(liveCellColor || color(0, 0, 0), isLiving);

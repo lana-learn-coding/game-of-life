@@ -53,7 +53,6 @@ function getCellNextState(currentState, numberOfSurround) {
     return DEAD;
 }
 
-
 function changeSpecialState() {
     for (let i = 0; i < specialCases.length; i++) {
         for (let row = 0; row < rows; row++) {

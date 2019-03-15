@@ -17,10 +17,14 @@ function getNumberOfSurroundCell(row, col) {
     const checkList = [-1, 0, 1];
     for (let i of checkList) {
         for (let j of checkList) {
-            numberOfSurround += getState(row + j, col + i);
+            const cell = getState(row + j, col + i);
+            if (cell > DEAD)
+                numberOfSurround += 1;
         }
     }
-    numberOfSurround -= getState(row, col);
+    if (getState(row, col) > DEAD) {
+        numberOfSurround -= 1;
+    }
     return numberOfSurround;
 }
 
@@ -38,12 +42,15 @@ function getCellNextState(currentState, numberOfSurround) {
     const underpopulation = numberOfSurround < 2;
 
     if (isDead && reproduction) {
-        return 1
+        return LIVING;
     }
     if (!isDead && (overpopulation || underpopulation)) {
-        return 0
+        return DEAD;
     }
-    return currentState;
+    if (currentState > DEAD) {
+        return LIVING;
+    }
+    return DEAD;
 }
 
 

@@ -2,7 +2,7 @@ function display(liveCellColor) {
     for (let row = 0; row < rows; row++) {
         for (let col = 0; col < cols; col++) {
             const cell = board[row][col];
-            coloring(liveCellColor || color(0, 0, 0), cell === LIVING);
+            coloring(liveCellColor || color(0, 0, 0), cell > DEAD);
             rect(col * cellSize, row * cellSize, cellSize, cellSize)
         }
     }

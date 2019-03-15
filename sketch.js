@@ -10,7 +10,6 @@ var cols = Math.floor(boardWidth / cellSize);
 var rows = Math.floor(boardHeight / cellSize);
 
 var speed = 1;
-var isStarted = false;
 
 
 function setup() {
@@ -79,12 +78,10 @@ function seeding(row, col) {
 }
 
 function onStart() {
-    isStarted = true;
     board = getBoardNextState();
-    setTimeout(onStart, 1000 / speed)
+    changeSpecialState();
 }
 
 function draw() {
     display();
-    if (isStarted) reDrawSpecialCase();
 }

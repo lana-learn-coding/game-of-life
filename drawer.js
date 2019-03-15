@@ -21,22 +21,22 @@ function coloring(color, condition) {
     }
 }
 
-function reDrawSpecialCase() {
+function changeSpecialState() {
     for (let i = 0; i < specialCases.length; i++) {
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
-                changeMatchedColor(row, col, i)
+                changeMatchedState(row, col, i)
             }
         }
     }
 }
 
-function changeMatchedColor(row, col, caseIndex) {
+function changeMatchedState(row, col, caseIndex) {
     const matchCase = specialCases[caseIndex];
     const matchList = getMatchList(row, col, matchCase.map);
     if (matchList !== []) {
         for (const match of matchList) {
-            displayOneBlock(match.row, match.col, matchCase.color)
+            board[match.row][match.col] = caseIndex + 2;
         }
     }
 }
